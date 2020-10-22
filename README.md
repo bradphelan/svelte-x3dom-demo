@@ -1,6 +1,8 @@
-# New Project
+# Svelte and x3dom demo
 
 > ✨ Bootstrapped with Create Snowpack App (CSA).
+
+Shows how to integrate x3dom with svelte ( and some work arounds )
 
 ## Available Scripts
 
