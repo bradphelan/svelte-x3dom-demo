@@ -1,70 +1,70 @@
-<script>
-	import {onMount} from 'svelte';
-	let count: number = 0;
-	onMount(() => {
-	  const interval = setInterval(() => count++, 1000);
-	  return () => {
-		clearInterval(interval);
-	  };
-	});
-  </script>
-  
-  <style>
-	:global(body) {
-	  margin: 0;
-	  font-family: Arial, Helvetica, sans-serif;
+<script lang="js">
+	import {onclick,slide_out} from "./x3dom"
+
+	import { fade,fly } from 'svelte/transition';
+
+	let yes = false;
+
+	let hitpnt = [0, 0, 0];
+
+	let hit = (event) => {
+		hitpnt = event.hitPnt;
+	};
+
+
+</script>
+
+<style>
+	h1 {
+		fontweight: bold;
 	}
-	.App {
-	  text-align: center;
-	}
-	.App code {
-	  background: #0002;
-	  padding: 4px 8px;
-	  border-radius: 4px;
-	}
-	.App p {
-	  margin: 0.4rem;
-	}
-  
-	.App-header {
-	  background-color: #f9f6f6;
-	  color: #333;
-	  min-height: 100vh;
-	  display: flex;
-	  flex-direction: column;
-	  align-items: center;
-	  justify-content: center;
-	  font-size: calc(10px + 2vmin);
-	}
-	.App-link {
-	  color: #ff3e00;
-	}
-	.App-logo {
-	  height: 36vmin;
-	  pointer-events: none;
-	  margin-bottom: 3rem;
-	  animation: App-logo-spin infinite 1.6s ease-in-out alternate;
-	}
-	@keyframes App-logo-spin {
-	  from {
-		transform: scale(1);
-	  }
-	  to {
-		transform: scale(1.06);
-	  }
-	}
-  </style>
-  
-  <div class="App">
-	<header class="App-header">
-	  <img src="/logo.svg" class="App-logo" alt="logo" />
-	  <p>Edit <code>src/App.svelte</code> and save to reload.</p>
-	  <p>Page has been open for <code>{count}</code> seconds.</p>
-	  <p>
-		<a class="App-link" href="https://svelte.dev" target="_blank" rel="noopener noreferrer">
-		  Learn Svelte
-		</a>
-	  </p>
-	</header>
-  </div>
-  
+</style>
+
+
+<input type="checkbox" bind:checked={yes} />
+
+<h1>Hello, X3DOM</h1>
+
+
+
+<x3d id="x3d" width="500px" height="400px">
+	<scene>
+		<shape use:onclick={hit}>
+			<appearance>
+				<material diffuseColor="1 0 0" />
+			</appearance>
+			<box />
+		</shape>
+
+		<transform id="marker" scale=".15 .15 .15" translation={hitpnt}>
+			<shape>
+				<appearance>
+					<material diffuseColor="#FFD966" />
+				</appearance>
+				<sphere />
+			</shape>
+		</transform>
+
+		{#if yes}
+			<transform id="green_cone" use:onclick={hit} out:slide_out translation="-3 0 0">
+				<shape >
+					<appearance>
+						<material diffuseColor="0 1 0" />
+					</appearance>
+					<cone />
+				</shape>
+			</transform>
+		{/if}
+
+		<transform translation="3 0 0">
+			<shape use:onclick={hit}>
+				<appearance>
+					<material diffuseColor="0 0 1" />
+				</appearance>
+				<sphere />
+			</shape>
+		</transform>
+	</scene>
+</x3d>
+
+<h1>Mind Blown</h1>
