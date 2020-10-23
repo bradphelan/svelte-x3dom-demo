@@ -1,4 +1,6 @@
 
+
+// Create a promise that resolves when x3dom is loaded
 let loaded = new Promise((resolve) => {
     //@ts-ignore
     window.x3dom.runtime.ready = ()=>{
@@ -6,6 +8,7 @@ let loaded = new Promise((resolve) => {
     }
 });
 
+// Remove an event listener from an x3dom node
 let removeDelayedEventListener = (node:any, event:string, handler:any)=>
 {
     try {
@@ -15,6 +18,7 @@ let removeDelayedEventListener = (node:any, event:string, handler:any)=>
     }
 }
 
+// Add an event listener from an x3dom node
 let addDelayedEventListener = (node:any, event:string, handler:any) =>{
     loaded.then(v=>{
         node.addEventListener(event, handler);
@@ -27,6 +31,7 @@ let addDelayedEventListener = (node:any, event:string, handler:any) =>{
 }
 
 
+// An action to add an onclick event handler to an x3dom node
 export let onclick = (node:any, handler:any) => {
     return addDelayedEventListener(node,"click", handler);
 };
