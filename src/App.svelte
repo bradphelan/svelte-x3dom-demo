@@ -5,7 +5,7 @@
 
 	import X3domWrap from "./X3domWrap";
 
-	let yes = false;
+	let showGreenCone = false;
 
 	let hitpnt = [0, 0, 0];
 
@@ -25,7 +25,7 @@
 <h1>X3DOM + Svelte </h1>
 
 <label for="show cone">Show cone</label>
-<input name="show cone" type="checkbox" bind:checked={yes} />
+<input name="show cone" type="checkbox" bind:checked={showGreenCone} />
 
 <div class="canvas">
 	<X3domWrap>
@@ -45,7 +45,7 @@
 			</shape>
 		</transform>
 
-		{#if yes}
+		{#if showGreenCone }
 			<transform
 				id="green_cone"
 				on:click={hit}
