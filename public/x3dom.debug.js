@@ -35692,6 +35692,8 @@ x3dom.NodeNameSpace.prototype.setupTree = function(domNode, parent) {
 
             domNode.__removeEventListener = domNode.removeEventListener;
             domNode.removeEventListener = function(type, func, phase) {
+                if(!this?._x3domNode?._listeners)
+                    return;
                 var list = this._x3domNode._listeners[type];
                 if (list) {
                     for (var it = 0; it < list.length; it++) {
