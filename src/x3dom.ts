@@ -1,30 +1,34 @@
 
-
-let r = ()=>{};
-//@ts-ignore
-window.x3dom.runtime.ready = ()=>{
-   r();
-}
-
 let loaded = new Promise((resolve) => {
-    r = resolve;
+    //@ts-ignore
+    window.x3dom.runtime.ready = ()=>{
+        resolve();
+    }
 });
 
-export let onclick = (node:any, handler:any) => {
+let removeDelayedEventListener = (node:any, event:string, handler:any)=>
+{
+    try {
+        node.removeEventListener(event, handler);
+    } catch (error) {
+        console.warn("Cannot remove event handler from x3dom node");
+    }
+}
+
+let addDelayedEventListener = (node:any, event:string, handler:any) =>{
     loaded.then(v=>{
-        node.addEventListener("click", handler);
-             //   node.removeEventListener("click", handler);
+        node.addEventListener(event, handler);
     });
     return {
         destroy() {
-            try {
-                node.removeEventListener("click", handler);
-            } catch (error) {
-                console.warn("Cannot remove event handler from x3dom node");
-                
-            }
+            removeDelayedEventListener(node,event,handler);
         },
     };
+}
+
+
+export let onclick = (node:any, handler:any) => {
+    return addDelayedEventListener(node,"click", handler);
 };
 
 
